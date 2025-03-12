@@ -11,17 +11,22 @@ class CharacterController extends Controller
     // Método para consumir la API y mostrar los personajes en una vista
     public function fetchCharacters()
     {
-        $response = Http::get('https://rickandmortyapi.com/api/character');
-        $characters = $response->json()['results'];
-
+        $characters = [];
+        for ($i = 1; $i <= 5; $i++) { // 5 páginas de 20 personajes cada una
+            $response = Http::get("https://rickandmortyapi.com/api/character?page=$i");
+            $characters = array_merge($characters, $response->json()['results']);
+        }
         return view('characters.index', compact('characters'));
     }
 
     // Método para guardar los personajes en la base de datos
     public function saveCharacters()
     {
-        $response = Http::get('https://rickandmortyapi.com/api/character');
-        $characters = $response->json()['results'];
+        $characters = [];
+        for ($i = 1; $i <= 5; $i++) { // Obtener las primeras 5 páginas de la API
+            $response = Http::get("https://rickandmortyapi.com/api/character?page=$i");
+            $characters = array_merge($characters, $response->json()['results']);
+        }
 
         foreach ($characters as $char) {
             Character::updateOrCreate(
@@ -39,7 +44,7 @@ class CharacterController extends Controller
             );
         }
 
-        return redirect()->route('characters.list')->with('success', 'Personajes guardados correctamente.');
+        return redirect()->route('characters.list')->with('success', '100 personajes guardados correctamente.');
     }
 
     // Método para mostrar los personajes guardados en la base de datos
@@ -68,5 +73,12 @@ class CharacterController extends Controller
         ]);
 
         return redirect()->route('characters.list')->with('success', 'Personaje actualizado correctamente.');
+    }
+
+    // Método para editar un personaje
+    public function editCharacter($id)
+    {
+        $character = Character::findOrFail($id);
+        return view('characters.edit', compact('character'));
     }
 }
