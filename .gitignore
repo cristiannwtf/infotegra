@@ -1,23 +1,35 @@
-/.phpunit.cache
+# Dependencias de Node y Composer
 /node_modules
+/vendor
+
+# Archivos de configuración y variables de entorno
+/.env
+/.env.*
+/auth.json
+
+# Archivos de caché y logs
+/.phpunit.result.cache
+/.phpunit.cache
+/storage/*.key
+/storage/*.log
+/storage/framework/cache/data
+
+# Configuraciones locales de editores de código
+/.vscode
+/.idea
+/.fleet
+/.zed
+
+# Archivos de Laravel que no deben subirse
+/public/storage
 /public/build
 /public/hot
-/public/storage
-/storage/*.key
-/storage/pail
-/vendor
-.env
-.env.backup
-.env.production
-.phpactor.json
-.phpunit.result.cache
 Homestead.json
 Homestead.yaml
+
+# Archivos de depuración de npm/yarn
 npm-debug.log
 yarn-error.log
-/auth.json
-/.fleet
-/.idea
-/.nova
-/.vscode
-/.zed
+
+# Script de la base de datos
+infotegra_db.sql

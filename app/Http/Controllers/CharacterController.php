@@ -49,18 +49,24 @@ class CharacterController extends Controller
         return view('characters.list', compact('characters'));
     }
 
-    // Método para editar un personaje
-    public function editCharacter($id)
+    // Método para mostrar el formulario de edición de un personaje
+    public function edit($id)
     {
         $character = Character::findOrFail($id);
         return view('characters.edit', compact('character'));
     }
 
-    // Método para update un personaje
-    public function updateCharacter(Request $request, $id)
+    // Método para actualizar un personaje
+    public function update(Request $request, $id)
     {
         $character = Character::findOrFail($id);
-        $character->update($request->all());
+        
+        $character->update([
+            'name' => $request->input('name'),
+            'status' => $request->input('status'),
+            'species' => $request->input('species'),
+        ]);
+
         return redirect()->route('characters.list')->with('success', 'Personaje actualizado correctamente.');
     }
 }
